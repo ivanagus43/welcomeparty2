@@ -54,12 +54,6 @@
       margin-bottom: 10px;
     }
 
-    .toggle-password {
-      margin-left: -30px;
-      cursor: pointer;
-      position: relative;
-    }
-
     button {
       padding: 10px 20px;
       font-size: 1.2em;
@@ -113,7 +107,6 @@
     <div class="message">Masukkan password di sini:</div>
     <div style="position: relative;">
       <input type="password" id="passwordInput" placeholder="Masukkan password" aria-label="Password Input">
-      <span class="toggle-password" onclick="togglePassword()">👁</span>
     </div>
     <button id="submitButton" onclick="checkPassword()">Submit</button>
     
@@ -148,19 +141,6 @@
       } else {
         resultDiv.textContent = "Password salah! Coba lagi.";
         resultDiv.classList.add('error', 'show');
-      }
-    }
-
-    // Toggle password visibility
-    function togglePassword() {
-      let passwordInput = document.getElementById('passwordInput');
-      let toggleIcon = document.querySelector('.toggle-password');
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleIcon.textContent = "🙈";
-      } else {
-        passwordInput.type = "password";
-        toggleIcon.textContent = "👁";
       }
     }
   </script>
