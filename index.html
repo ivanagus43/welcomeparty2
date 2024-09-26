@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Permainan Menjinakkan Bom</title>
+  <title>Password</title>
   <style>
     body, html {
       margin: 0;
@@ -71,6 +71,11 @@
     .error {
       color: red;
     }
+
+    .win {
+      font-weight: bold;
+      color: black;
+    }
   </style>
 </head>
 <body>
@@ -81,9 +86,9 @@
   </video>
 
   <div class="container">
-    <h1>Permainan Menjinakkan Bom</h1>
+    <h1>Password</h1>
     <div id="timer" class="timer">15:00</div>
-    <div class="message">Masukkan password untuk menjinakkan bom:</div>
+    <div class="message">Masukkan password di sini:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
     <div id="result" class="result"></div>
@@ -153,7 +158,8 @@
         let seconds = totalTime % 60;
         seconds = seconds < 10 ? '0' + seconds : seconds;
         document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
-        document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
+        document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
+        document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
         document.getElementById('result').classList.remove('error');
         localStorage.removeItem('gameOver'); // Hapus status game over
         localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
