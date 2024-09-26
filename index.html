@@ -41,11 +41,6 @@
       color: #ff0000;
     }
 
-    .timer {
-      font-size: 2em;
-      margin: 20px 0;
-    }
-
     .message {
       font-size: 1.2em;
       margin: 10px 0;
@@ -92,10 +87,9 @@
   </video>
 
   <div class="container">
-    <!-- Move the image above the title -->
+    <!-- Image above the title -->
     <img src="breakpassword.png" alt="Break Password Image">
     <h1>Password</h1>
-    <div id="timer" class="timer"></div>
     <div class="message">Masukkan password di sini:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
@@ -105,51 +99,17 @@
 
   <script>
     let correctPassword = "12345";
-    let totalTime = 15 * 60; // 15 menit dalam detik
-    let interval;
     let isGameWon = false; // Status permainan
-
-    // Cek apakah ada waktu tersimpan di LocalStorage
-    if (localStorage.getItem('timeRemaining')) {
-      totalTime = parseInt(localStorage.getItem('timeRemaining'));
-    }
 
     // Cek status permainan
     if (localStorage.getItem('gameOver') === 'true') {
       showGameOver();
     } else if (localStorage.getItem('isGameWon') === 'true') {
       showGameWin();
-    } else {
-      // Mulai timer jika belum menang
-      startTimer();
-    }
-
-    function startTimer() {
-      interval = setInterval(function() {
-        if (isGameWon) {
-          clearInterval(interval); // Pastikan interval berhenti jika sudah menang
-          return; // Keluar dari fungsi agar tidak melakukan pembaruan lebih lanjut
-        }
-        let minutes = Math.floor(totalTime / 60);
-        let seconds = totalTime % 60;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        document.getElementById('timer').textContent = `${minutes}:${seconds}`;
-
-        totalTime--;
-
-        // Simpan waktu yang tersisa di LocalStorage
-        localStorage.setItem('timeRemaining', totalTime);
-
-        if (totalTime < 0) {
-          clearInterval(interval); // Matikan timer
-          showGameOver(); // Panggil fungsi untuk menampilkan game over
-        }
-      }, 1000);
     }
 
     // Fungsi untuk menampilkan pesan "GAME OVER"
     function showGameOver() {
-      document.getElementById('timer').style.display = 'none'; // Sembunyikan timer
       document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
       document.getElementById('result').classList.add('error');
       disableInputs(); // Nonaktifkan input dan tombol
@@ -159,12 +119,6 @@
     // Fungsi untuk menampilkan pesan kemenangan
     function showGameWin() {
       isGameWon = true; // Tandai permainan sudah dimenangkan
-      clearInterval(interval); // Matikan timer
-      // Tampilkan waktu yang tersisa saat password benar
-      let minutes = Math.floor(totalTime / 60);
-      let seconds = totalTime % 60;
-      seconds = seconds < 10 ? '0' + seconds : seconds;
-      document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
       document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
       document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
       document.getElementById('result').classList.remove('error');
@@ -180,13 +134,8 @@
         localStorage.setItem('isGameWon', 'true'); // Simpan status menang
         showGameWin(); // Tampilkan pesan kemenangan
       } else {
-        document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
+        document.getElementById('result').textContent = "Password salah! Coba lagi.";
         document.getElementById('result').classList.add('error');
-        totalTime -= 30; // Mengurangi waktu 30 detik
-        // Pastikan waktu tidak negatif
-        if (totalTime < 0) {
-          totalTime = 0; // Set waktu minimum menjadi 0
-        }
       }
     }
 
@@ -196,19 +145,13 @@
       document.querySelector('button').disabled = true; // Nonaktifkan tombol
     }
 
-    // Mencegah refresh halaman tanpa peringatan
-    window.addEventListener('beforeunload', function (e) {
-      e.preventDefault();
-      e.returnValue = ''; // Ini diperlukan untuk menampilkan peringatan di beberapa browser
-    });
-
     // Mulai timer saat halaman dimuat
     window.onload = function() {
-      // Jika permainan berakhir, jangan mulai timer
-      if (localStorage.getItem('gameOver') !== 'true' && localStorage.getItem('isGameWon') !== 'true') {
-        startTimer();
+      // Jika permainan berakhir atau sudah menang, tampilkan pesan yang sesuai
+      if (localStorage.getItem('gameOver') === 'true') {
+        showGameOver(); 
       } else if (localStorage.getItem('isGameWon') === 'true') {
-        showGameWin(); // Tampilkan kemenangan jika sudah menang
+        showGameWin(); 
       }
     };
   </script>
