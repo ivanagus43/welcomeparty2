@@ -76,6 +76,12 @@
       font-weight: bold;
       color: black;
     }
+
+    .logo {
+      width: 100%; /* Atur lebar gambar agar responsif */
+      max-width: 300px; /* Lebar maksimum untuk gambar */
+      margin-bottom: 20px; /* Ruang antara gambar dan elemen di bawahnya */
+    }
   </style>
 </head>
 <body>
@@ -86,6 +92,8 @@
   </video>
 
   <div class="container">
+    <!-- Gambar di bagian atas -->
+    <img src="breakpassword.png" alt="Break Password" class="logo">
     <h1>Password</h1>
     <div id="timer" class="timer"></div>
     <div class="message">Masukkan password di sini:</div>
