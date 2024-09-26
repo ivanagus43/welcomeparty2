@@ -80,7 +80,7 @@
     img {
       max-width: 100%; /* Responsive image */
       height: auto;
-      margin-top: 20px; /* Add some space above the image */
+      margin-bottom: 20px; /* Add some space below the image */
     }
   </style>
 </head>
@@ -92,14 +92,13 @@
   </video>
 
   <div class="container">
+    <!-- Move the image above the title -->
+    <img src="breakpassword.png" alt="Break Password Image">
     <h1>Password</h1>
     <div id="timer" class="timer"></div>
     <div class="message">Masukkan password di sini:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
-    
-    <!-- Add the image here -->
-    <img src="breakpassword.png" alt="Break Password Image">
     
     <div id="result" class="result"></div>
   </div>
