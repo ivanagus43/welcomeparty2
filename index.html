@@ -110,6 +110,10 @@
 
     function startTimer() {
       interval = setInterval(function() {
+        if (isGameWon) {
+          clearInterval(interval); // Pastikan interval berhenti jika sudah menang
+          return; // Keluar dari fungsi agar tidak melakukan pembaruan lebih lanjut
+        }
         let minutes = Math.floor(totalTime / 60);
         let seconds = totalTime % 60;
         seconds = seconds < 10 ? '0' + seconds : seconds;
