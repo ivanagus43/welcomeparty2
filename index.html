@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center; /* Posisikan konten di tengah secara horizontal */
+      align-items: center; /* Posisikan konten di tengah secara vertikal */
+    }
+
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      filter: blur(4px) brightness(50%);
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      width: 100%; /* Tambahkan lebar penuh */
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff0000;
+    }
+
+    .timer {
+      font-size: 2em;
+      margin: 20px 0;
+    }
+
+    .message {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1.2em;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .result {
+      font-size: 1.5em;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .win {
+      font-weight: bold;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video Animasi Bom -->
+  <video autoplay muted loop class="background-video">
+    <source src="bomb_animation.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="container">
+    <h1>Password</h1>
+    <div id="timer" class="timer"></div>
+    <div class="message">Masukkan password di sini:</div>
+    <input type="password" id="passwordInput" placeholder="Masukkan password">
+    <button onclick="checkPassword()">Submit</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    let correctPassword = "12345";
+    let totalTime = 15 * 60; // 15 menit dalam detik
+    let interval;
+    let isGameWon = false; // Status permainan
+
+    // Cek apakah ada waktu tersimpan di LocalStorage
+    if (localStorage.getItem('timeRemaining')) {
+      totalTime = parseInt(localStorage.getItem('timeRemaining'));
+    }
+
+    // Cek status permainan
+    if (localStorage.getItem('gameOver') === 'true') {
+      showGameOver();
+    } else if (localStorage.getItem('isGameWon') === 'true') {
+      showGameWin();
+    } else {
+      // Mulai timer jika belum menang
+      startTimer();
+    }
+
+    function startTimer() {
+      interval = setInterval(function() {
+        if (isGameWon) {
+          clearInterval(interval); // Pastikan interval berhenti jika sudah menang
+          return; // Keluar dari fungsi agar tidak melakukan pembaruan lebih lanjut
+        }
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+
+        totalTime--;
+
+        // Simpan waktu yang tersisa di LocalStorage
+        localStorage.setItem('timeRemaining', totalTime);
+
+        if (totalTime < 0) {
+          clearInterval(interval); // Matikan timer
+          showGameOver(); // Panggil fungsi untuk menampilkan game over
+        }
+      }, 1000);
+    }
+
+    // Fungsi untuk menampilkan pesan "GAME OVER"
+    function showGameOver() {
+      document.getElementById('timer').style.display = 'none'; // Sembunyikan timer
+      document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
+      document.getElementById('result').classList.add('error');
+      disableInputs(); // Nonaktifkan input dan tombol
+      localStorage.setItem('gameOver', 'true'); // Simpan status game over
+    }
+
+    // Fungsi untuk menampilkan pesan kemenangan
+    function showGameWin() {
+      isGameWon = true; // Tandai permainan sudah dimenangkan
+      clearInterval(interval); // Matikan timer
+      // Tampilkan waktu yang tersisa saat password benar
+      let minutes = Math.floor(totalTime / 60);
+      let seconds = totalTime % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
+      document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
+      document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
+      document.getElementById('result').classList.remove('error');
+      disableInputs(); // Nonaktifkan input dan tombol
+    }
+
+    // Fungsi untuk mengecek password
+    function checkPassword() {
+      if (isGameWon) return; // Jika sudah menang, keluar dari fungsi
+
+      let userPassword = document.getElementById('passwordInput').value;
+      if (userPassword === correctPassword) {
+        localStorage.setItem('isGameWon', 'true'); // Simpan status menang
+        showGameWin(); // Tampilkan pesan kemenangan
+      } else {
+        document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
+        document.getElementById('result').classList.add('error');
+        totalTime -= 30; // Mengurangi waktu 30 detik
+        // Pastikan waktu tidak negatif
+        if (totalTime < 0) {
+          totalTime = 0; // Set waktu minimum menjadi 0
+        }
+      }
+    }
+
+    // Fungsi untuk menonaktifkan input dan tombol
+    function disableInputs() {
+      document.querySelector('input').disabled = true; // Nonaktifkan input
+      document.querySelector('button').disabled = true; // Nonaktifkan tombol
+    }
+
+    // Mencegah refresh halaman tanpa peringatan
+    window.addEventListener('beforeunload', function (e) {
+      e.preventDefault();
+      e.returnValue = ''; // Ini diperlukan untuk menampilkan peringatan di beberapa browser
+    });
+
+    // Mulai timer saat halaman dimuat
+    window.onload = function() {
+      // Jika permainan berakhir, jangan mulai timer
+      if (localStorage.getItem('gameOver') !== 'true' && localStorage.getItem('isGameWon') !== 'true') {
+        startTimer();
+      } else if (localStorage.getItem('isGameWon') === 'true') {
+        showGameWin(); // Tampilkan kemenangan jika sudah menang
+      }
+    };
+  </script>
+</body>
+</html>
