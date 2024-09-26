@@ -104,14 +104,10 @@
 
         totalTime--;
 
-        // Simpan sisa waktu di localStorage
-        localStorage.setItem("remainingTime", totalTime);
-
         if (totalTime < 0) {
           clearInterval(interval);
           document.getElementById('result').textContent = "Waktu habis! Bom meledak!";
           document.getElementById('result').classList.add('error');
-          localStorage.removeItem("remainingTime"); // Hapus waktu setelah bom meledak
         }
       }, 1000);
     }
@@ -123,24 +119,21 @@
         clearInterval(interval);
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
-        localStorage.removeItem("remainingTime"); // Hapus waktu setelah bom dijinakkan
       } else {
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
         totalTime -= 30; // Mengurangi waktu 30 detik
-        localStorage.setItem("remainingTime", totalTime); // Update waktu di localStorage
       }
     }
 
+    // Mencegah refresh halaman
+    window.addEventListener('beforeunload', function (e) {
+      e.preventDefault();
+      e.returnValue = ''; // Ini diperlukan untuk menampilkan peringatan di beberapa browser
+    });
+
     // Mulai timer saat halaman dimuat
     window.onload = function() {
-      // Cek apakah ada waktu yang tersimpan di localStorage
-      let savedTime = localStorage.getItem("remainingTime");
-      if (savedTime) {
-        totalTime = parseInt(savedTime);
-      } else {
-        totalTime = 15 * 60; // Set ulang waktu ke 15 menit jika belum ada data di localStorage
-      }
       startTimer();
     };
   </script>
