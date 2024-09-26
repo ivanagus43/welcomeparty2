@@ -137,7 +137,7 @@
     function checkPassword() {
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
-        clearInterval(interval); // Matikan timer
+        clearInterval(interval); // Matikan timer (pause)
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
         localStorage.removeItem('gameOver'); // Hapus status game over
