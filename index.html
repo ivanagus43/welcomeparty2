@@ -98,7 +98,18 @@
       totalTime = parseInt(localStorage.getItem('timeRemaining'));
     }
 
-    // Fungsi untuk memulai timer
+    // Cek status permainan
+    if (localStorage.getItem('gameOver') === 'true') {
+      document.getElementById('timer').textContent = "Waktu Habis!";
+      document.getElementById('result').textContent = "Waktu Habis!";
+      document.getElementById('result').classList.add('error');
+      document.querySelector('input').disabled = true; // Nonaktifkan input
+      document.querySelector('button').disabled = true; // Nonaktifkan tombol
+    } else {
+      // Fungsi untuk memulai timer
+      startTimer();
+    }
+
     function startTimer() {
       interval = setInterval(function() {
         let minutes = Math.floor(totalTime / 60);
@@ -113,9 +124,12 @@
 
         if (totalTime < 0) {
           clearInterval(interval);
-          document.getElementById('result').textContent = "Waktu habis! Bom meledak!";
+          document.getElementById('result').textContent = "Waktu Habis!";
           document.getElementById('result').classList.add('error');
-          localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa saat waktu habis
+          localStorage.setItem('gameOver', 'true'); // Tandai permainan telah selesai
+          localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
+          document.querySelector('input').disabled = true; // Nonaktifkan input
+          document.querySelector('button').disabled = true; // Nonaktifkan tombol
         }
       }, 1000);
     }
@@ -127,7 +141,8 @@
         clearInterval(interval);
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
-        localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa saat bom dijinakkan
+        localStorage.removeItem('gameOver'); // Hapus status game over
+        localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
       } else {
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
