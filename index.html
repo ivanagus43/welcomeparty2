@@ -13,7 +13,6 @@
       display: flex;
       justify-content: center; /* Posisikan konten di tengah secara horizontal */
       align-items: center; /* Posisikan konten di tengah secara vertikal */
-      /* background-color: #000; */ /* Menghilangkan latar belakang hitam */
     }
 
     .background-video {
@@ -94,6 +93,7 @@
     let correctPassword = "12345";
     let totalTime = 15 * 60; // 15 menit dalam detik
     let interval;
+    let isGameWon = false; // Status permainan
 
     // Cek apakah ada waktu tersimpan di LocalStorage
     if (localStorage.getItem('timeRemaining')) {
@@ -138,9 +138,12 @@
 
     // Fungsi untuk mengecek password
     function checkPassword() {
+      if (isGameWon) return; // Jika sudah menang, keluar dari fungsi
+
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
-        clearInterval(interval); // Matikan timer (pause)
+        clearInterval(interval); // Matikan timer
+        isGameWon = true; // Tandai permainan sudah dimenangkan
         // Tampilkan waktu yang tersisa saat password benar
         let minutes = Math.floor(totalTime / 60);
         let seconds = totalTime % 60;
