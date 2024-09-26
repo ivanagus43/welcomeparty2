@@ -11,7 +11,7 @@
       height: 100%;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end; /* Ubah untuk menempatkan konten di bawah */
       align-items: center;
     }
 
@@ -30,10 +30,12 @@
       position: relative;
       z-index: 2;
       max-width: 600px;
+      width: 100%; /* Tambahkan lebar penuh */
       padding: 20px;
       background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
       border-radius: 10px;
       text-align: center;
+      margin-bottom: 20px; /* Jarak bawah untuk konten */
     }
 
     h1 {
