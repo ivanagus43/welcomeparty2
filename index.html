@@ -11,9 +11,9 @@
       height: 100%;
       font-family: Arial, sans-serif;
       display: flex;
-      flex-direction: column; /* Atur arah fleksibel ke kolom */
-      justify-content: flex-end; /* Posisikan konten di bawah */
-      align-items: center; /* Posisikan konten di tengah secara horizontal */
+      justify-content: center; /* Posisikan konten di tengah secara horizontal */
+      align-items: center; /* Posisikan konten di tengah secara vertikal */
+      background-color: #000; /* Latar belakang hitam */
     }
 
     .background-video {
@@ -36,7 +36,6 @@
       background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
       border-radius: 10px;
       text-align: center;
-      margin-bottom: 20px; /* Jarak bawah untuk konten */
     }
 
     h1 {
@@ -142,6 +141,11 @@
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
         clearInterval(interval); // Matikan timer (pause)
+        // Tampilkan waktu yang tersisa saat password benar
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
         localStorage.removeItem('gameOver'); // Hapus status game over
@@ -151,6 +155,10 @@
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
         totalTime -= 30; // Mengurangi waktu 30 detik
+        // Pastikan waktu tidak negatif
+        if (totalTime < 0) {
+          totalTime = 0; // Set waktu minimum menjadi 0
+        }
       }
     }
 
