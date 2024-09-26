@@ -112,7 +112,6 @@
     function showGameOver() {
       document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
       document.getElementById('result').classList.add('error');
-      disableInputs(); // Nonaktifkan input dan tombol
       localStorage.setItem('gameOver', 'true'); // Simpan status game over
     }
 
@@ -122,7 +121,6 @@
       document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
       document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
       document.getElementById('result').classList.remove('error');
-      disableInputs(); // Nonaktifkan input dan tombol
     }
 
     // Fungsi untuk mengecek password
@@ -138,22 +136,6 @@
         document.getElementById('result').classList.add('error');
       }
     }
-
-    // Fungsi untuk menonaktifkan input dan tombol
-    function disableInputs() {
-      document.querySelector('input').disabled = true; // Nonaktifkan input
-      document.querySelector('button').disabled = true; // Nonaktifkan tombol
-    }
-
-    // Mulai timer saat halaman dimuat
-    window.onload = function() {
-      // Jika permainan berakhir atau sudah menang, tampilkan pesan yang sesuai
-      if (localStorage.getItem('gameOver') === 'true') {
-        showGameOver(); 
-      } else if (localStorage.getItem('isGameWon') === 'true') {
-        showGameWin(); 
-      }
-    };
   </script>
 </body>
 </html>
