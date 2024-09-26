@@ -33,9 +33,10 @@
       max-width: 600px;
       width: 100%;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.3);
+      background: transparent; /* Set to transparent */
       border-radius: 10px;
       text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.3); /* Optional: Add a border for visibility */
     }
 
     h1 {
@@ -47,11 +48,17 @@
       margin: 10px 0;
     }
 
-    input {
+    input[type="password"] {
       padding: 10px;
       font-size: 1.2em;
       width: calc(100% - 24px); /* Adjusted for padding */
       margin-bottom: 10px;
+    }
+
+    .toggle-password {
+      margin-left: -30px;
+      cursor: pointer;
+      position: relative;
     }
 
     button {
@@ -105,7 +112,10 @@
     <img src="breakpassword.png" alt="Break Password Image">
     <h1>Password</h1>
     <div class="message">Masukkan password di sini:</div>
-    <input type="password" id="passwordInput" placeholder="Masukkan password">
+    <div style="position: relative;">
+      <input type="password" id="passwordInput" placeholder="Masukkan password" aria-label="Password Input">
+      <span class="toggle-password" onclick="togglePassword()">👁</span>
+    </div>
     <button id="submitButton" onclick="checkPassword()">Submit</button>
     
     <div id="result" class="result" aria-live="polite"></div>
@@ -139,6 +149,19 @@
       } else {
         resultDiv.textContent = "Password salah! Coba lagi.";
         resultDiv.classList.add('error', 'show');
+      }
+    }
+
+    // Toggle password visibility
+    function togglePassword() {
+      let passwordInput = document.getElementById('passwordInput');
+      let toggleIcon = document.querySelector('.toggle-password');
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.textContent = "🙈";
+      } else {
+        passwordInput.type = "password";
+        toggleIcon.textContent = "👁";
       }
     }
   </script>
