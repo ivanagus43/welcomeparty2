@@ -11,8 +11,9 @@
       height: 100%;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: flex-end; /* Ubah untuk menempatkan konten di bawah */
-      align-items: center;
+      flex-direction: column; /* Atur arah fleksibel ke kolom */
+      justify-content: flex-end; /* Posisikan konten di bawah */
+      align-items: center; /* Posisikan konten di tengah secara horizontal */
     }
 
     .background-video {
@@ -133,6 +134,7 @@
       document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
       document.getElementById('result').classList.add('error');
       disableInputs(); // Nonaktifkan input dan tombol
+      localStorage.setItem('gameOver', 'true'); // Simpan status game over
     }
 
     // Fungsi untuk mengecek password
