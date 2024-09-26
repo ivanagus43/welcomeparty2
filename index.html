@@ -11,8 +11,8 @@
       height: 100%;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center; /* Posisikan konten di tengah secara horizontal */
-      align-items: center; /* Posisikan konten di tengah secara vertikal */
+      justify-content: center; /* Center content horizontally */
+      align-items: center; /* Center content vertically */
     }
 
     .background-video {
@@ -30,9 +30,9 @@
       position: relative;
       z-index: 2;
       max-width: 600px;
-      width: 100%; /* Tambahkan lebar penuh */
+      width: 100%; /* Full width */
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
+      background-color: rgba(255, 255, 255, 0.3); /* Transparent box */
       border-radius: 10px;
       text-align: center;
     }
@@ -76,6 +76,12 @@
       font-weight: bold;
       color: black;
     }
+
+    img {
+      max-width: 100%; /* Responsive image */
+      height: auto;
+      margin-top: 20px; /* Add some space above the image */
+    }
   </style>
 </head>
 <body>
@@ -91,6 +97,10 @@
     <div class="message">Masukkan password di sini:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
+    
+    <!-- Add the image here -->
+    <img src="breakpassword.png" alt="Break Password Image">
+    
     <div id="result" class="result"></div>
   </div>
 
