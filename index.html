@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, content="initial-scale=1.0">
   <title>Permainan Menjinakkan Bom</title>
   <style>
     body, html {
@@ -103,8 +103,7 @@
       document.getElementById('timer').textContent = "Waktu Habis!";
       document.getElementById('result').textContent = "Waktu Habis!";
       document.getElementById('result').classList.add('error');
-      document.querySelector('input').disabled = true; // Nonaktifkan input
-      document.querySelector('button').disabled = true; // Nonaktifkan tombol
+      disableInputs(); // Nonaktifkan input dan tombol
     } else {
       // Fungsi untuk memulai timer
       startTimer();
@@ -123,13 +122,12 @@
         localStorage.setItem('timeRemaining', totalTime);
 
         if (totalTime < 0) {
-          clearInterval(interval);
+          clearInterval(interval); // Matikan timer
           document.getElementById('result').textContent = "Waktu Habis!";
           document.getElementById('result').classList.add('error');
           localStorage.setItem('gameOver', 'true'); // Tandai permainan telah selesai
           localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
-          document.querySelector('input').disabled = true; // Nonaktifkan input
-          document.querySelector('button').disabled = true; // Nonaktifkan tombol
+          disableInputs(); // Nonaktifkan input dan tombol
         }
       }, 1000);
     }
@@ -138,16 +136,23 @@
     function checkPassword() {
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
-        clearInterval(interval);
+        clearInterval(interval); // Matikan timer
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
         localStorage.removeItem('gameOver'); // Hapus status game over
         localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
+        disableInputs(); // Nonaktifkan input dan tombol
       } else {
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
         totalTime -= 30; // Mengurangi waktu 30 detik
       }
+    }
+
+    // Fungsi untuk menonaktifkan input dan tombol
+    function disableInputs() {
+      document.querySelector('input').disabled = true; // Nonaktifkan input
+      document.querySelector('button').disabled = true; // Nonaktifkan tombol
     }
 
     // Mencegah refresh halaman tanpa peringatan
