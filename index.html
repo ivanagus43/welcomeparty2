@@ -87,7 +87,7 @@
 
   <div class="container">
     <h1>Password</h1>
-    <div id="timer" class="timer">15:00</div>
+    <div id="timer" class="timer"></div>
     <div class="message">Masukkan password di sini:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
@@ -108,8 +108,10 @@
     // Cek status permainan
     if (localStorage.getItem('gameOver') === 'true') {
       showGameOver();
+    } else if (localStorage.getItem('isGameWon') === 'true') {
+      showGameWin();
     } else {
-      // Fungsi untuk memulai timer
+      // Mulai timer jika belum menang
       startTimer();
     }
 
@@ -145,25 +147,29 @@
       localStorage.setItem('gameOver', 'true'); // Simpan status game over
     }
 
+    // Fungsi untuk menampilkan pesan kemenangan
+    function showGameWin() {
+      isGameWon = true; // Tandai permainan sudah dimenangkan
+      clearInterval(interval); // Matikan timer
+      // Tampilkan waktu yang tersisa saat password benar
+      let minutes = Math.floor(totalTime / 60);
+      let seconds = totalTime % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
+      document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
+      document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
+      document.getElementById('result').classList.remove('error');
+      disableInputs(); // Nonaktifkan input dan tombol
+    }
+
     // Fungsi untuk mengecek password
     function checkPassword() {
       if (isGameWon) return; // Jika sudah menang, keluar dari fungsi
 
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
-        clearInterval(interval); // Matikan timer
-        isGameWon = true; // Tandai permainan sudah dimenangkan
-        // Tampilkan waktu yang tersisa saat password benar
-        let minutes = Math.floor(totalTime / 60);
-        let seconds = totalTime % 60;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        document.getElementById('timer').textContent = `${minutes}:${seconds}`; // Tampilkan waktu saat ini
-        document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
-        document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
-        document.getElementById('result').classList.remove('error');
-        localStorage.removeItem('gameOver'); // Hapus status game over
-        localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
-        disableInputs(); // Nonaktifkan input dan tombol
+        localStorage.setItem('isGameWon', 'true'); // Simpan status menang
+        showGameWin(); // Tampilkan pesan kemenangan
       } else {
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
@@ -190,8 +196,10 @@
     // Mulai timer saat halaman dimuat
     window.onload = function() {
       // Jika permainan berakhir, jangan mulai timer
-      if (localStorage.getItem('gameOver') !== 'true') {
+      if (localStorage.getItem('gameOver') !== 'true' && localStorage.getItem('isGameWon') !== 'true') {
         startTimer();
+      } else if (localStorage.getItem('isGameWon') === 'true') {
+        showGameWin(); // Tampilkan kemenangan jika sudah menang
       }
     };
   </script>
