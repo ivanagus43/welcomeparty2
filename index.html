@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, content="initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Permainan Menjinakkan Bom</title>
   <style>
     body, html {
@@ -81,7 +81,7 @@
 
   <div class="container">
     <h1>Permainan Menjinakkan Bom</h1>
-    <div class="timer" id="timer">15:00</div>
+    <div id="timer" class="timer">15:00</div>
     <div class="message">Masukkan password untuk menjinakkan bom:</div>
     <input type="password" id="passwordInput" placeholder="Masukkan password">
     <button onclick="checkPassword()">Submit</button>
@@ -100,10 +100,7 @@
 
     // Cek status permainan
     if (localStorage.getItem('gameOver') === 'true') {
-      document.getElementById('timer').textContent = "Waktu Habis!";
-      document.getElementById('result').textContent = "Waktu Habis!";
-      document.getElementById('result').classList.add('error');
-      disableInputs(); // Nonaktifkan input dan tombol
+      showGameOver();
     } else {
       // Fungsi untuk memulai timer
       startTimer();
@@ -123,13 +120,17 @@
 
         if (totalTime < 0) {
           clearInterval(interval); // Matikan timer
-          document.getElementById('result').textContent = "Waktu Habis!";
-          document.getElementById('result').classList.add('error');
-          localStorage.setItem('gameOver', 'true'); // Tandai permainan telah selesai
-          localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa
-          disableInputs(); // Nonaktifkan input dan tombol
+          showGameOver(); // Panggil fungsi untuk menampilkan game over
         }
       }, 1000);
+    }
+
+    // Fungsi untuk menampilkan pesan "GAME OVER"
+    function showGameOver() {
+      document.getElementById('timer').style.display = 'none'; // Sembunyikan timer
+      document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
+      document.getElementById('result').classList.add('error');
+      disableInputs(); // Nonaktifkan input dan tombol
     }
 
     // Fungsi untuk mengecek password
