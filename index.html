@@ -33,7 +33,7 @@
       max-width: 600px;
       width: 100%;
       padding: 20px;
-      background: none; /* Hilangkan background */
+      background-color: rgba(255, 255, 255, 0.3);
       border-radius: 10px;
       text-align: center;
     }
@@ -50,7 +50,7 @@
     input {
       padding: 10px;
       font-size: 1.2em;
-      width: calc(100% - 24px);
+      width: calc(100% - 24px); /* Adjusted for padding */
       margin-bottom: 10px;
     }
 
@@ -112,6 +112,7 @@
   </div>
 
   <script>
+    // Menggunakan password yang case-sensitive
     let correctPassword = "XlmUlin.MLG.252";
 
     // Disable button jika input kosong
