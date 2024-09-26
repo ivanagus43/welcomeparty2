@@ -163,7 +163,10 @@
 
     // Mulai timer saat halaman dimuat
     window.onload = function() {
-      startTimer();
+      // Jika permainan berakhir, jangan mulai timer
+      if (localStorage.getItem('gameOver') !== 'true') {
+        startTimer();
+      }
     };
   </script>
 </body>
