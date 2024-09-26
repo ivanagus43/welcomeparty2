@@ -99,25 +99,9 @@
 
   <script>
     let correctPassword = "12345";
-    let isGameWon = false; // Status permainan
-
-    // Cek status permainan
-    if (localStorage.getItem('gameOver') === 'true') {
-      showGameOver();
-    } else if (localStorage.getItem('isGameWon') === 'true') {
-      showGameWin();
-    }
-
-    // Fungsi untuk menampilkan pesan "GAME OVER"
-    function showGameOver() {
-      document.getElementById('result').textContent = "GAME OVER"; // Tampilkan pesan GAME OVER
-      document.getElementById('result').classList.add('error');
-      localStorage.setItem('gameOver', 'true'); // Simpan status game over
-    }
 
     // Fungsi untuk menampilkan pesan kemenangan
     function showGameWin() {
-      isGameWon = true; // Tandai permainan sudah dimenangkan
       document.getElementById('result').textContent = "Password Benar! YOU WIN"; // Pesan kemenangan
       document.getElementById('result').classList.add('win'); // Tambahkan kelas win untuk styling
       document.getElementById('result').classList.remove('error');
@@ -125,11 +109,8 @@
 
     // Fungsi untuk mengecek password
     function checkPassword() {
-      if (isGameWon) return; // Jika sudah menang, keluar dari fungsi
-
       let userPassword = document.getElementById('passwordInput').value;
       if (userPassword === correctPassword) {
-        localStorage.setItem('isGameWon', 'true'); // Simpan status menang
         showGameWin(); // Tampilkan pesan kemenangan
       } else {
         document.getElementById('result').textContent = "Password salah! Coba lagi.";
