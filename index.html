@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permainan Menjinakkan Bom</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+    }
+
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      filter: blur(4px) brightness(50%);
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff0000;
+    }
+
+    .timer {
+      font-size: 2em;
+      margin: 20px 0;
+    }
+
+    .message {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1.2em;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .result {
+      font-size: 1.5em;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video Animasi Bom -->
+  <video autoplay muted loop class="background-video">
+    <source src="bomb_animation.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="container">
+    <h1>Permainan Menjinakkan Bom</h1>
+    <div class="timer" id="timer">15:00</div>
+    <div class="message">Masukkan password untuk menjinakkan bom:</div>
+    <input type="password" id="passwordInput" placeholder="Masukkan password">
+    <button onclick="checkPassword()">Submit</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    let correctPassword = "12345";
+    let totalTime = 15 * 60; // 15 menit dalam detik
+    let interval;
+
+    // Fungsi untuk memulai timer
+    function startTimer() {
+      interval = setInterval(function() {
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+
+        totalTime--;
+
+        if (totalTime < 0) {
+          clearInterval(interval);
+          document.getElementById('result').textContent = "Waktu habis! Bom meledak!";
+          document.getElementById('result').classList.add('error');
+        }
+      }, 1000);
+    }
+
+    // Fungsi untuk mengecek password
+    function checkPassword() {
+      let userPassword = document.getElementById('passwordInput').value;
+      if (userPassword === correctPassword) {
+        clearInterval(interval);
+        document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
+        document.getElementById('result').classList.remove('error');
+      } else {
+        document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
+        document.getElementById('result').classList.add('error');
+        totalTime -= 30; // Mengurangi waktu 30 detik
+      }
+    }
+
+    // Mulai timer saat halaman dimuat
+    window.onload = function() {
+      startTimer();
+    };
+  </script>
+</body>
+</html>
