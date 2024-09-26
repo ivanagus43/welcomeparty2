@@ -36,7 +36,7 @@
       background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
       border-radius: 10px;
       text-align: center;
-      margin-top: 80px; /* Tambahkan margin untuk memberi ruang di atas */
+      margin-top: 20px; /* Mengurangi margin atas */
     }
 
     h1 {
@@ -80,11 +80,10 @@
     }
 
     .logo {
-      position: absolute; /* Menggunakan posisi absolut */
-      top: 0; /* Menempatkan di bagian atas */
-      left: 0; /* Menempatkan di sebelah kiri */
-      width: 100vw; /* Atur lebar gambar agar selebar tampilan layar */
+      position: relative; /* Menggunakan posisi relatif */
+      width: 100%; /* Mengatur lebar gambar agar selebar bingkai putih */
       height: auto; /* Sesuaikan tinggi gambar */
+      margin-bottom: -60px; /* Mengurangi jarak ke bawah agar tidak ada spasi di antara gambar dan kontainer */
       z-index: 1; /* Pastikan gambar berada di atas video tetapi di bawah kontainer */
     }
   </style>
