@@ -80,10 +80,12 @@
     }
 
     .logo {
+      position: absolute; /* Menggunakan posisi absolut */
+      top: 0; /* Menempatkan di bagian atas */
+      left: 0; /* Menempatkan di sebelah kiri */
       width: 100vw; /* Atur lebar gambar agar selebar tampilan layar */
       height: auto; /* Sesuaikan tinggi gambar */
-      position: relative; /* Gambar berada di posisi relatif */
-      z-index: 1; /* Pastikan gambar berada di atas video */
+      z-index: 1; /* Pastikan gambar berada di atas video tetapi di bawah kontainer */
     }
   </style>
 </head>
