@@ -13,7 +13,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #000;
     }
 
     .background-video {
@@ -32,7 +31,7 @@
       z-index: 2;
       max-width: 600px;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.3); /* Ubah warna kotak menjadi lebih transparan */
       border-radius: 10px;
       text-align: center;
     }
@@ -94,6 +93,11 @@
     let totalTime = 15 * 60; // 15 menit dalam detik
     let interval;
 
+    // Cek apakah ada waktu tersimpan di LocalStorage
+    if (localStorage.getItem('timeRemaining')) {
+      totalTime = parseInt(localStorage.getItem('timeRemaining'));
+    }
+
     // Fungsi untuk memulai timer
     function startTimer() {
       interval = setInterval(function() {
@@ -104,10 +108,14 @@
 
         totalTime--;
 
+        // Simpan waktu yang tersisa di LocalStorage
+        localStorage.setItem('timeRemaining', totalTime);
+
         if (totalTime < 0) {
           clearInterval(interval);
           document.getElementById('result').textContent = "Waktu habis! Bom meledak!";
           document.getElementById('result').classList.add('error');
+          localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa saat waktu habis
         }
       }, 1000);
     }
@@ -119,6 +127,7 @@
         clearInterval(interval);
         document.getElementById('result').textContent = "Password benar! Bom berhasil dijinakkan!";
         document.getElementById('result').classList.remove('error');
+        localStorage.removeItem('timeRemaining'); // Hapus waktu tersisa saat bom dijinakkan
       } else {
         document.getElementById('result').textContent = "Password salah! Mengurangi waktu 30 detik.";
         document.getElementById('result').classList.add('error');
@@ -126,7 +135,7 @@
       }
     }
 
-    // Mencegah refresh halaman
+    // Mencegah refresh halaman tanpa peringatan
     window.addEventListener('beforeunload', function (e) {
       e.preventDefault();
       e.returnValue = ''; // Ini diperlukan untuk menampilkan peringatan di beberapa browser
